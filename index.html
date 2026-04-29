@@ -1541,7 +1541,11 @@ html.dark #blind-popup{
 <header class="header" id="main-header">
   <div class="header-inner">
     <div class="header-top">
+<<<<<<< HEAD
+      <div  onclick="showV('dash')" role="button" tabindex="0" aria-label="Go to dashboard">300w<sub><span>A</span></sub></div>
+=======
       <div class="logo" onclick="showV('dash')" role="button" tabindex="0" aria-label="Go to dashboard">300W<sub><span>A</span></sub></div>
+>>>>>>> d14dd0ee63ca48094795a239e9b2ccf515cbd126
       <nav class="desktop-nav header-collapsible" aria-label="Main navigation">
         <button class="d-nav-item" onclick="showV('dash')">📊 Dash</button>
         <button class="d-nav-item active" onclick="showV('browse')">📚 Browse</button>
@@ -2654,7 +2658,7 @@ function autoFitCardText(){
   const enEl = card.querySelector('.fc-en-text');
   if(enEl){
     /* Always start from the ideal large size, not the computed (possibly already shrunken) size */
-    const startFsEn = window.innerWidth <= 480 ? 46 : 61; /* px equivalents of 2.9rem / 3.8rem */
+    const startFsEn = window.innerWidth <= 480 ? 54 : 70; /* px equivalents of 2.9rem / 3.8rem */
     enEl.style.fontSize = startFsEn + 'px';
     let fs = startFsEn;
     /* shrink until word fits width */
