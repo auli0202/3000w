@@ -2658,12 +2658,12 @@ function autoFitCardText(){
   const enEl = card.querySelector('.fc-en-text');
   if(enEl){
     /* Always start from the ideal large size, not the computed (possibly already shrunken) size */
-    const startFsEn = window.innerWidth <= 480 ? 54 : 70; /* px equivalents of 2.9rem / 3.8rem */
+    const startFsEn = window.innerWidth <= 480 ? 46 : 61; /* px equivalents of 2.9rem / 3.8rem */
     enEl.style.fontSize = startFsEn + 'px';
     let fs = startFsEn;
     /* shrink until word fits width */
     let guard = 0;
-    while(enEl.scrollWidth > cardW && fs > 36 && guard++ < 40){
+    while(enEl.scrollWidth > cardW && fs > 39 && guard++ < 40){
       fs -= 2; enEl.style.fontSize = fs + 'px';
     }
   }
