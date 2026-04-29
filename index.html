@@ -684,6 +684,17 @@ html.dark .flip-card::after{opacity:.18;}
   text-align:center;font-size:.7rem;color:var(--text-sub);font-weight:700;
   opacity:.5;letter-spacing:.06em;text-transform:uppercase;
 }
+.kb-hint{
+  text-align:center;font-size:.68rem;color:var(--text-sub);font-weight:600;
+  opacity:.55;letter-spacing:.04em;display:flex;align-items:center;justify-content:center;gap:.4rem;
+}
+.kb-hint kbd{
+  display:inline-flex;align-items:center;justify-content:center;
+  background:var(--card-bg);border:1.5px solid var(--border);
+  border-radius:.3rem;padding:1px 6px;font-size:.65rem;font-family:inherit;
+  font-weight:700;color:var(--text-sub);box-shadow:0 2px 0 var(--border);
+  line-height:1.5;
+}
 
 /* ── Mobile ────────────────────────────────── */
 @media(max-width:480px){
@@ -701,6 +712,7 @@ html.dark .flip-card::after{opacity:.18;}
   .fc-nav-btn{display:none!important;}
   .fc-nav{grid-template-columns:1fr;justify-items:center;}
   .fc-page{min-height:auto;}
+  .kb-hint{display:none;}
 }
 
 /* ═══════════════════════════════════════════════
@@ -1696,6 +1708,7 @@ html.dark #blind-popup{
       <div class="fc-nav-center">
         <div class="fc-nav-dots" id="fc-dots"></div>
         <span class="swipe-hint">swipe card</span>
+        <span class="kb-hint"><kbd>Space</kbd> or <kbd>Enter</kbd> to flip &nbsp;·&nbsp; <kbd>←</kbd><kbd>→</kbd> to navigate</span>
       </div>
       <button class="btn btn-outline fc-nav-btn" onclick="fcNext()" aria-label="Next card">Next →</button>
     </div>
@@ -2083,12 +2096,22 @@ document.querySelector('.logo').addEventListener('keydown', e => {
 /* ══ KEYBOARD SHORTCUTS ═════════════════════════════════════════ */
 document.addEventListener('keydown', e => {
   if(e.key === 'Escape'){ closeWordModal(); closeBlindPopupDirect(); closeMobileMenu(); }
-  if(e.key === 'ArrowRight' && fcList.length > 0) fcNext();
-  if(e.key === 'ArrowLeft'  && fcList.length > 0) fcPrev();
-  if(e.key === ' ' && document.activeElement.id === 'fc-card') {
-    e.preventDefault();
-    fcFlipped = !fcFlipped; renderFC();
-    if(!fcFlipped && document.getElementById('fc-auto-speak')?.checked && fcList[fcIdx]) speak(fcList[fcIdx].en);
+
+  // Flash card keyboard shortcuts — active when flash view is visible and no input is focused
+  const flashVisible = !document.getElementById('v-flash').classList.contains('hidden');
+  const typing = ['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName);
+  if(flashVisible && fcList.length > 0 && !typing){
+    if(e.key === 'ArrowRight'){ e.preventDefault(); fcNext(); return; }
+    if(e.key === 'ArrowLeft') { e.preventDefault(); fcPrev(); return; }
+    if(e.key === ' ' || e.key === 'Enter'){
+      e.preventDefault();
+      fcFlipped = !fcFlipped; renderFC();
+      if(!fcFlipped && document.getElementById('fc-auto-speak')?.checked && fcList[fcIdx]) speak(fcList[fcIdx].en);
+      return;
+    }
+  } else {
+    if(e.key === 'ArrowRight' && fcList.length > 0) fcNext();
+    if(e.key === 'ArrowLeft'  && fcList.length > 0) fcPrev();
   }
 });
 
